@@ -1,12 +1,9 @@
+import dynamic from 'next/dynamic';
 
+const PokemonPage = dynamic(() => import('@/modules/pokemon/pages/page'));
 
-const page = () => {
-  return (
-    <div>
-      <h1>home PAGE</h1>
-      <p>lorem ipsum dolor</p>
-    </div>
-  )
-}
+const Page = () => {
+  return <PokemonPage />;
+};
 
-export default page
+export default Page;
