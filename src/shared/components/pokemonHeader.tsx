@@ -20,14 +20,14 @@ const PokemonHeader = ({
   setSearchQuery,
 }: propType) => {
   return (
-    <div className="flex justify-between mb-4">
+    <div className="flex flex-col sm:flex-row justify-between mb-4">
       <div>
         <h1 className="text-2xl font-bold font-galindo text-[#242424]">
           {title}
         </h1>
         <p className="text-[#979292]">{caption}</p>
       </div>
-      <div>
+      <div className="flex justify-center">
         {/* search bar */}
         <input
           type="text"
@@ -37,7 +37,7 @@ const PokemonHeader = ({
           className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#242424]"
         />
       </div>
-      <div>
+      <div className="flex justify-center">
         <ViewListIcon
           style={{
             width: 50,
