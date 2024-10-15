@@ -10,19 +10,24 @@ import PokemonHeader from "@/shared/components/pokemonHeader";
 const PokemonPage = () => {
   const [state, dispatch] = useReducer(PokemonReducer, PokemonInitState);
   const [activeIcon, setActiveIcon] = useState<"list" | "grid">("grid");
+  const [searchQuery, setSearchQuery] = useState("");
   const displayCount = state.displayCount;
   const limit = 150;
 
   useEffect(() => {
     PokemonInitData(dispatch, `pokemon?limit=${limit}&offset=0`);
-  }, [dispatch]);
+  }, [dispatch, limit]);
+
+  const filteredPokemons = state.result.filter((pokemon) =>
+    pokemon.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+  );
 
   const loadMorePokemons = useCallback(() => {
-    if (displayCount < state.result.length) {
+    if (displayCount < filteredPokemons.length) {
       dispatch({ type: "INCREMENT_DISPLAY_COUNT" });
       PokemonInitData(dispatch, `pokemon?limit=${limit}&offset=0`);
     }
-  }, [displayCount, state.result.length, dispatch, limit]);
+  }, [displayCount, filteredPokemons.length, dispatch, limit]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,17 +53,27 @@ const PokemonPage = () => {
         caption={"150 Pokémons"}
         activeIcon={activeIcon}
         toggleIcon={setActiveIcon}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
       />
 
       {activeIcon === "grid" ? (
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          <PokemonGrid state={state} displayCount={displayCount} layout="grid"/>
+          <PokemonGrid
+            displayCount={displayCount}
+            layout="grid"
+            pokemons={filteredPokemons}
+          />
         </div>
       ) : (
-        <PokemonGrid state={state} displayCount={displayCount} layout="list"/>
+        <PokemonGrid
+          displayCount={displayCount}
+          layout="list"
+          pokemons={filteredPokemons}
+        />
       )}
 
-      {displayCount < state.result.length && (
+      {displayCount < filteredPokemons.length && (
         <div className="flex justify-center">
           <button
             onClick={loadMorePokemons}

@@ -3,15 +3,15 @@ import { PokemonInitStateType } from "../reducer/pokemon_init";
 import PokemonDetails from "./pokemonDetail";
 
 type propType = {
-  state: PokemonInitStateType;
+  pokemons: PokemonInitStateType["result"];
   displayCount: number;
   layout: "grid" | "list";
 };
 
-const PokemonGrid = ({ state, displayCount, layout }: propType) => {
+const PokemonGrid = ({ pokemons, displayCount, layout }: propType) => {
   return (
     <>
-      {state.result.slice(0, displayCount).map((pokemon, index) => (
+      {pokemons.slice(0, displayCount).map((pokemon, index) => (
         <PokemonDetails key={index} pokemon={pokemon} layout={layout} />
       ))}
     </>

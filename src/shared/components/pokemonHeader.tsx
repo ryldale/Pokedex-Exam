@@ -7,6 +7,8 @@ type propType = {
   caption?: ReactNode;
   activeIcon: "list" | "grid";
   toggleIcon: (icon: "list" | "grid") => void;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
 };
 
 const PokemonHeader = ({
@@ -14,8 +16,9 @@ const PokemonHeader = ({
   caption,
   activeIcon,
   toggleIcon,
+  searchQuery,
+  setSearchQuery,
 }: propType) => {
-
   return (
     <div className="flex justify-between mb-4">
       <div>
@@ -23,6 +26,16 @@ const PokemonHeader = ({
           {title}
         </h1>
         <p className="text-[#979292]">{caption}</p>
+      </div>
+      <div>
+        {/* search bar */}
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search Pokémon"
+          className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#242424]"
+        />
       </div>
       <div>
         <ViewListIcon
